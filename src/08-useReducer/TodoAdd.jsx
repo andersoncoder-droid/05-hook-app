@@ -1,17 +1,36 @@
-export const TodoAdd = () => {
-  // TodoAdd onNewTodo ( todo )
-  // {id: new Date()..., description: '', done: false}
+import { useForm } from '../hooks/index';
 
-  <form action=''>
-    <input
-      type='text'
-      placeholder='¿Qué hay que hacer?'
-      className='form-control'
-    />
-    <button type='submit' className='btn btn-outline-primary mt-1'>
-      Agregar
-    </button>
-  </form>;
+export const TodoAdd = ({ onNewTodo }) => {
+  const { description, onInputChange, onResetForm } = useForm({
+    description: '',
+  });
 
-  return <div>TodoAdd</div>;
+  const onFormSubmit = (event) => {
+    event.preventDefault();
+    if (description.length <= 1) return;
+    const newTodo = {
+      id: new Date().getTime(),
+      done: false,
+      description: description,
+    };
+
+    onNewTodo(newTodo);
+    onResetForm();
+  };
+
+  return (
+    <form onSubmit={onFormSubmit}>
+      <input
+        type='text'
+        placeholder='¿Qué hay que hacer?'
+        className='form-control'
+        name='description'
+        value={description}
+        onChange={onInputChange}
+      />
+      <button type='submit' className='btn btn-outline-primary mt-1'>
+        Agregar
+      </button>
+    </form>
+  );
 };
