@@ -1,52 +1,20 @@
-import { useEffect, useReducer } from 'react';
-import { TodoAdd, TodoItem, TodoList, todoReducer } from './index.js';
-
-const initialState = [
-  // {
-  //   id: new Date().getTime(),
-  //   description: 'Recolectar la piedra del alma',
-  //   done: false,
-  // },
-];
-
-const init = () => {
-  return JSON.parse(localStorage.getItem('todos')) || [];
-};
+import { useTodos } from '../hooks/index.js';
+import { TodoAdd, TodoList } from './index.js';
 
 export const TodoApp = () => {
-  const [todos, dispatch] = useReducer(todoReducer, initialState, init);
-
-  useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos));
-  }, [todos]);
-
-  const handleNewTodo = (todo) => {
-    const action = {
-      type: '[TODO] Add Todo',
-      payload: todo,
-    };
-    dispatch(action);
-  };
-
-  const handleDeleteTodo = (id) => {
-    const action = {
-      type: '[TODO] Remove Todo',
-      payload: id,
-    };
-    dispatch(action);
-  };
-
-  const handleToggleTodo = (id) => {
-    dispatch({
-      type: '[TODO] Toggle Todo',
-      payload: id,
-    });
-  };
+  const {
+    todos,
+    todosCount,
+    pendingTodosCount,
+    handleDeleteTodo,
+    handleToggleTodo,
+    handleNewTodo,
+  } = useTodos();
 
   return (
     <>
       <h1>
-        TodoApp: 10,<small> pendientes: 2</small>
+        TodoApp: {todosCount},<small> pendientes: {pendingTodosCount}</small>
       </h1>
       <hr />
       <div className='row'>
