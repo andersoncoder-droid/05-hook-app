@@ -1,13 +1,13 @@
-import { Link, Navigate, Route, Routes } from 'react-router-dom';
-import { HomePage } from './HomePage';
 import { AboutPage } from './AboutPage';
+import { HomePage } from './HomePage';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { LoginPage } from './LoginPage';
 import { Navbar } from './Navbar';
+import { UserProvider } from './context/UserProvider';
 
 export const MainApp = () => {
   return (
-    <>
-      <h1>MainApp</h1>
+    <UserProvider>
       <Navbar />
       <hr />
 
@@ -17,6 +17,6 @@ export const MainApp = () => {
         <Route path='about' element={<AboutPage />} />
         <Route path='/*' element={<Navigate to='/about' />} />
       </Routes>
-    </>
+    </UserProvider>
   );
 };
